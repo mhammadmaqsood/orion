@@ -1,0 +1,21 @@
+server:
+  port: 8088
+
+spring:
+  application:
+    name: config-server
+
+  cloud:
+    config:
+      server:
+        git:
+          uri: https://github.com/mhammadmaqsood/orion.git
+          default-label: main
+          clone-on-start: true
+          search-paths: configs/{application}
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health, info
