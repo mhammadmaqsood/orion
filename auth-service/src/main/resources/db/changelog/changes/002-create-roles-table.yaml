@@ -1,0 +1,66 @@
+databaseChangeLog:
+  - changeSet:
+      id: 002-create-roles-table
+      author: hammad
+      changes:
+        - createTable:
+            tableName: roles
+            remarks: Stores system roles used for authorization
+            column:
+              - column:
+                  name: id
+                  type: BIGINT
+                  autoIncrement: true
+                  remarks: Primary key of the role
+                  constraints:
+                    primaryKey: true
+                    primaryName: pk_roles
+                    nullable: false
+
+              - column:
+                  name: role_name
+                  type: VARCHAR(50)
+                  remarks: Unique role identifier such as CUSTOMER, ADMIN
+                  constraints:
+                    nullable: false
+
+              - column:
+                  name: description
+                  type: VARCHAR(255)
+                  remarks: Description of the role
+
+              - column:
+                  name: created_at
+                  type: DATETIME
+                  defaultValueComputed: CURRENT_TIMESTAMP
+                  remarks: Record creation timestamp
+                  constraints:
+                    nullable: false
+
+              - column:
+                  name: updated_at
+                  type: DATETIME
+                  defaultValueComputed: CURRENT_TIMESTAMP
+                  remarks: Record last update timestamp
+                  constraints:
+                    nullable: false
+
+              - column:
+                  name: updated_by
+                  type: VARCHAR(100)
+                  defaultValue: SYSTEM
+                  remarks: Actor who last updated the record
+                  constraints:
+                    nullable: false
+
+        - addUniqueConstraint:
+            tableName: roles
+            columnNames: role_name
+            constraintName: uk_roles_role_name
+
+        - createIndex:
+            tableName: roles
+            indexName: idx_roles_role_name
+            columns:
+              - column:
+                  name: role_name
