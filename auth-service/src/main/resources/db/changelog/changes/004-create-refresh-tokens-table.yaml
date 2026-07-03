@@ -1,0 +1,100 @@
+databaseChangeLog:
+  - changeSet:
+      id: 004-create-refresh-tokens-table
+      author: hammad
+      changes:
+        - createTable:
+            tableName: refresh_tokens
+            remarks: Stores refresh token metadata for session management and security tracking
+            columns:
+              - column:
+                  name: id
+                  type: BIGINT
+                  autoIncrement: true
+                  remarks: Primary key of the refresh token record
+                  constraints:
+                    primaryKey: true
+                    primaryKeyName: pk_refresh_tokens
+                    nullable: false
+
+              - column:
+                  name: user_id
+                  type: BIGINT
+                  remarks: Foreign key reference to users table
+                  constraints:
+                    nullable: false
+
+              - column:
+                  name: token_hash
+                  type: VARCHAR(500)
+                  remarks: Hashed value of the refresh token for secure storage
+                  constraints:
+                    nullable: false
+
+              - column:
+                  name: expires_at
+                  type: DATETIME
+                  remarks: Expiration timestamp of the refresh token
+                  constraints:
+                    nullable: false
+
+              - column:
+                  name: revoked
+                  type: BOOLEAN
+                  defaultValueBoolean: false
+                  remarks: Indicates whether the token has been revoked
+                  constraints:
+                    nullable: false
+
+              - column:
+                  name: created_at
+                  type: DATETIME
+                  defaultValueComputed: CURRENT_TIMESTAMP
+                  remarks: Record creation timestamp
+                  constraints:
+                    nullable: false
+
+              - column:
+                  name: created_by
+                  type: VARCHAR(100)
+                  defaultValue: SYSTEM
+                  remarks: Actor who created the record
+                  constraints:
+                    nullable: false
+
+              - column:
+                  name: updated_at
+                  type: DATETIME
+                  defaultValueComputed: CURRENT_TIMESTAMP
+                  remarks: Record last update timestamp
+                  constraints:
+                    nullable: false
+
+              - column:
+                  name: updated_by
+                  type: VARCHAR(100)
+                  defaultValue: SYSTEM
+                  remarks: Actor who last updated the record
+                  constraints:
+                    nullable: false
+
+        - addForeignKeyConstraint:
+            baseTableName: refresh_tokens
+            baseColumnNames: user_id
+            referencedTableName: users
+            referencedColumnNames: id
+            constraintName: fk_refresh_tokens_user_id
+
+        - createIndex:
+            tableName: refresh_tokens
+            indexName: idx_refresh_tokens_user_id
+            columns:
+              - column:
+                  name: user_id
+
+        - createIndex:
+            tableName: refresh_tokens
+            indexName: idx_refresh_tokens_expires_at
+            columns:
+              - column:
+                  name: expires_at
