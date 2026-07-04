@@ -1,0 +1,32 @@
+databaseChangeLog:
+  - changeSet:
+      id: 006-seed-default-roles
+      author: hammad
+
+      comment: Seed default system roles
+
+      insert:
+        tableName: roles
+        columns:
+          - column:
+              name: role_name
+              value: ROLE_USER
+          - column:
+              name: description
+              value: Default role assigned to all registered users
+
+  - changeSet:
+      id: 007-seed-admin-role
+      author: hammad
+
+      comment: Seed administrator role
+
+      insert:
+        tableName: roles
+        columns:
+          - column:
+              name: role_name
+              value: ROLE_ADMIN
+          - column:
+              name: description
+              value: Administrator role with elevated privileges

@@ -14,7 +14,7 @@ databaseChangeLog:
                   remarks: Primary key of the role
                   constraints:
                     primaryKey: true
-                    primaryName: pk_roles
+                    primaryKeyName: pk_roles
                     nullable: false
 
               - column:

@@ -9,3 +9,5 @@ databaseChangeLog:
       file: db/changelog/changes/004-create-refresh-tokens-table.yaml
   - include:
       file: db/changelog/changes/005-create-audit-log-table.yaml
+  - include:
+      file: db/changelog/changes/006-seed-default-roles.yaml
